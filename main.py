@@ -1,5 +1,6 @@
 from selenium import webdriver
 import secrets
+from datetime import date
 
 
 # Setup Browser
@@ -21,10 +22,31 @@ browser.find_element_by_xpath('//*[@value = "OK"]').click()
 browser.find_element_by_link_text('Minha Conta').click()
 
 
-# Livros
+# Book Info
 checkboxes = browser.find_elements_by_xpath('//*[@type = "checkbox"]')
-titulos = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
-datas = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
-locais = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
+titles = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
+dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+locals = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
 
-checkboxes.pop() # Ultimo elemento faz parte do fim da pagina
+checkboxes.pop() # Last element is not associated with a book
+td = date.today().strftime("%d/%m/%y")
+selected = [] # Books that must be renewed
+returned = [] # Books that must be returned
+
+for i in range(len(dates)):
+    print('\nBook {0}: {1}'.format(str(i), titles[i].text))
+
+    if dates[i].text == td:
+        checkboxes[i].click()
+        selected.append(i)
+        print('\t... Selected.')
+    else:
+        print('\t... OK')
+
+browser.find_element_by_link_text('Renovar selecionados').click()
+new_dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+
+for i in selected:
+    # Return date didn't change after selection => the book must be returned
+    if dates[i].text == new_dates[i].text:
+        returned.append(i)
