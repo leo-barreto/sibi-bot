@@ -17,5 +17,14 @@ login_pass = browser.find_element_by_id('bor_verification')
 login_user.send_keys(secrets.NUSP)
 login_pass.send_keys(secrets.PASS)
 
-browser.find_element_by_link_text('OK').click()
+browser.find_element_by_xpath('//*[@value = "OK"]').click()
 browser.find_element_by_link_text('Minha Conta').click()
+
+
+# Livros
+checkboxes = browser.find_elements_by_xpath('//*[@type = "checkbox"]')
+titulos = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
+datas = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+locais = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
+
+checkboxes.pop() # Ultimo elemento faz parte do fim da pagina
