@@ -5,6 +5,7 @@ import secrets
 
 
 start = time.time()
+print('===== S I B I  B O T =====\n(USP, please don\'t ban me!)\n')
 
 
 # Setup Browser
@@ -17,6 +18,8 @@ browser.find_element_by_link_text('Senha da biblioteca').click()
 
 
 # Login
+login_time = time.time()
+print('Login @ {}... '.format(secrets.NUSP), end = '')
 login_user = browser.find_element_by_id('bor_id')
 login_pass = browser.find_element_by_id('bor_verification')
 
@@ -24,14 +27,18 @@ login_user.send_keys(secrets.NUSP)
 login_pass.send_keys(secrets.PASS)
 
 browser.find_element_by_xpath('//*[@value = "OK"]').click()
+print('OK ({0:.2f} sec).'.format(time.time() - login_time))
 browser.find_element_by_id('exlidMyAccount').click()
 
 
 # Book Info
+bookinfo_time = time.time()
+print('Downloading info... ', end = '')
 checkboxes = browser.find_elements_by_xpath('//*[@type = "checkbox"]')
 titles = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
 dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
 locals = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
+print('OK ({0:.2f} sec).'.format(time.time() - bookinfo_time))
 
 checkboxes.pop() # Last element is not associated with a book
 td = date.today().strftime("%d/%m/%y")
@@ -43,8 +50,11 @@ for i in range(N):
         checkboxes[i].click()
         selected.append(i)
 
+renew_time = time.time()
+print('Renewal... ', end = '')
 browser.find_element_by_link_text('Renovar selecionados').click()
 new_dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+print('OK ({0:.2f} sec).'.format(time.time() - renew_time))
 
 
 # Output
