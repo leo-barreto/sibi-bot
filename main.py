@@ -64,12 +64,12 @@ for i in range(N):
     if i in selected:
         # Return date didn't change after selection => the book must be returned
         if dates[i].text == new_dates[i].text:
-            print('\t... Must be returned to {}.'.format(locals[i].text))
+            print('\t... Must be returned to {0} ({1} => X).'.format(locals[i].text, dates[i].text))
         else:
-            print('\t... Successful renewal.')
+            print('\t... Successful renewal ({0} => {1}).'.format(dates[i].text, new_dates[i].text))
 
     else:
-        print('\t... OK.')
+        print('\t... OK ({}).'.format(dates[i].text))
 
 
 # Logout
