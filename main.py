@@ -28,7 +28,8 @@ login_pass.send_keys(secrets.PASS)
 
 browser.find_element_by_xpath('//*[@value = "OK"]').click()
 print('OK ({0:.2f} sec).'.format(time.time() - login_time))
-browser.find_element_by_id('exlidMyAccount').click()
+time.sleep(5)
+browser.find_element_by_link_text('Minha Conta').click()
 
 
 # Book Info
@@ -58,6 +59,7 @@ print('OK ({0:.2f} sec).'.format(time.time() - renew_time))
 
 
 # Output
+time.sleep(5)
 for i in range(N):
     print('\nBook {0}: "{1}"'.format(str(i), titles[i].text))
 
