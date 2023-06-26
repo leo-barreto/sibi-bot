@@ -14,31 +14,31 @@ login_page = 'https://primofs01.sibi.usp.br/pds?func=load-login&calling_system=p
 browser = webdriver.Firefox()
 browser.implicitly_wait(10)
 browser.get(login_page)
-browser.find_element_by_link_text('Senha da biblioteca').click()
+browser.find_element('link text', 'Senha da biblioteca').click()
 
 
 # Login
 login_time = time.time()
 print('Login @ {}... '.format(secrets.NUSP), end = '')
-login_user = browser.find_element_by_id('bor_id')
-login_pass = browser.find_element_by_id('bor_verification')
+login_user = browser.find_element('id', 'bor_id')
+login_pass = browser.find_element('id', 'bor_verification')
 
 login_user.send_keys(secrets.NUSP)
 login_pass.send_keys(secrets.PASS)
 
-browser.find_element_by_xpath('//*[@value = "OK"]').click()
+browser.find_element('xpath', '//*[@value = "OK"]').click()
 print('OK ({0:.2f} sec).'.format(time.time() - login_time))
 time.sleep(5)
-browser.find_element_by_link_text('Minha Conta').click()
+browser.find_element('link text', 'Minha Conta').click()
 
 
 # Book Info
 bookinfo_time = time.time()
 print('Downloading info... ', end = '')
-checkboxes = browser.find_elements_by_xpath('//*[@type = "checkbox"]')
-titles = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
-dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
-locals = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
+checkboxes = browser.find_elements('xpath', '//*[@type = "checkbox"]')
+titles = browser.find_elements('xpath', '//*[@class = "MyAccount_Loans_2 MyAccount_Loans_title"]')
+dates = browser.find_elements('xpath', '//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+locals = browser.find_elements('xpath', '//*[@class = "MyAccount_Loans_7 MyAccount_Loans_location"]')
 print('OK ({0:.2f} sec).'.format(time.time() - bookinfo_time))
 
 checkboxes.pop() # Last element is not associated with a book
@@ -53,8 +53,8 @@ for i in range(N):
 
 renew_time = time.time()
 print('Renewal... ', end = '')
-browser.find_element_by_link_text('Renovar selecionados').click()
-new_dates = browser.find_elements_by_xpath('//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
+browser.find_element('link text', 'Renovar selecionados').click()
+new_dates = browser.find_elements('xpath', '//*[@class = "MyAccount_Loans_4 MyAccount_Loans_dueDate"]')
 print('OK ({0:.2f} sec).'.format(time.time() - renew_time))
 
 
@@ -75,7 +75,7 @@ for i in range(N):
 
 
 # Logout
-browser.find_element_by_id('exlidSignOut').click()
+browser.find_element('id', 'exlidSignOut').click()
 browser.quit()
 
 time_exec = time.time() - start
